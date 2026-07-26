@@ -189,3 +189,48 @@ AegisOne is production-ready and structured to deploy seamlessly on cloud platfo
 ## 7. Live Demonstration Checklist
 For details on performing a live presentation and triggering simulated scenarios, refer to the [AegisOne Demo Checklist](file:///Users/kmrinal/AegisOne/docs/demo_checklist.md).
 
+---
+
+## 8. Frontend SOC Dashboard Operator Guide
+
+AegisOne features a comprehensive, dark-themed Security Operations Center (SOC) Console. Below is a breakdown of how to use the dashboard and what each sub-page is dedicated for:
+
+### Page-by-Page Breakdown
+
+1. **Dashboard (Operations & Topology)**
+   - *Purpose*: The main console for real-time monitoring. Renders the live animated **Digital Twin Topology Map** (mapping subnets, engineering terminals, servers, and controllers) alongside metrics cards and the **Attack Injection Panel** at the footer.
+   
+2. **Industrial Assets**
+   - *Purpose*: Tracks physical OT hardware catalog details (PLCs, HMIs, Gateways) and renders live telemetry sensors (temperature, pressure, RPM) with color-coded criticality limits.
+   
+3. **Devices & Hosts**
+   - *Purpose*: Lists all authorized workstations, engineering PCs, laptops, and SCADA servers interacting with the ICS subnets, highlighting their OS version and network validation status.
+   
+4. **Behavioral Events**
+   - *Purpose*: A live protocol transaction log stream collecting all S7Comm, Modbus, and OPC-UA events, allowing search/filtering by IP and protocol values.
+   
+5. **Threat Alerts**
+   - *Purpose*: A prioritized alert queue displaying detected security events (e.g. Impossible Travel, MAC Spoofing, Stuffing sweeps) ranked by risk scores. Clicking an alert opens the **Incident Investigation Drawer**.
+   
+6. **Risk Analytics**
+   - *Purpose*: Visualizes dynamic risk trends, vulnerability indexes (0-100), and entity threat contribution factors.
+   
+7. **Users & Operators**
+   - *Purpose*: Catalog of employees, operators, and analysts, mapping their default geolocations, TZ parameters, and working hours constraints.
+   
+8. **Behavior Profiles**
+   - *Purpose*: Displays learned benign profiles for each operator (usual device, average event count, normal login shifts) mapping normal baselines.
+   
+9. **Feature Store**
+   - *Purpose*: Visualizes vectorized rolling telemetry metrics (1h, 24h, 7d) used for model scoring.
+   
+10. **Detection Engine**
+    - *Purpose*: Retraining console for anomaly models. Lets operators retrain entity models on feature vectors and configure model contamination ratios.
+    
+11. **Threat Simulation**
+    - *Purpose*: Launch controls to run full cyberattack timelines (Low-and-Slow Exfiltration, USB Malware, Stuffing, etc.) with real-time progression feeds.
+    
+12. **System Operations**
+    - *Purpose*: Admin page for hardware telemetry (CPU, RAM, Disk), REST API response counters, system health details, database connection indicators, and CSV exports of audit logs.
+
+
