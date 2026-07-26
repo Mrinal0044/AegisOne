@@ -1,6 +1,7 @@
 # AegisOne: Industrial Behavioral Intelligence Platform
 
-AegisOne is an enterprise-grade Industrial Behavioral Intelligence Platform designed to secure Operational Technology (OT), Industrial IoT (IIoT), SCADA systems, PLCs, industrial control systems, manufacturing plants, and critical infrastructure. 
+AegisOne (Aegis = protection/shield in Greek mythology.
+One = unified platform) is an enterprise-grade Industrial Behavioral Intelligence Platform designed to secure Operational Technology (OT), Industrial IoT (IIoT), SCADA systems, PLCs, industrial control systems, manufacturing plants, and critical infrastructure. 
 
 Unlike traditional signature-based cybersecurity systems, AegisOne continuously models the behavioral patterns of users, industrial devices, applications, and connected assets to detect insider threats, compromised accounts, unauthorized access, abnormal industrial operations, and cyberattacks in real time.
 
