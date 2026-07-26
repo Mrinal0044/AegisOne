@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: aegisone_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgrespassword}
+      POSTGRES_DB: ${POSTGRES_DB:-aegisone}
+    ports:
+      - "5442:5432"
+    volumes:
+      - aegisone_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-aegisone}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    container_name: aegisone_backend
+    restart: always
+    ports:
+      - "8001:8000"
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgrespassword}
+      POSTGRES_DB: ${POSTGRES_DB:-aegisone}
+      PROJECT_NAME: ${PROJECT_NAME:-AegisOne}
+      API_V1_STR: ${API_V1_STR:-/api/v1}
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      SEED_DATABASE_ON_STARTUP: ${SEED_DATABASE_ON_STARTUP:-true}
+      BACKEND_CORS_ORIGINS: ${BACKEND_CORS_ORIGINS:-["http://localhost:5173", "http://localhost:80", "http://127.0.0.1:5173", "http://127.0.0.1:80"]}
+    volumes:
+      - ./backend:/app
+      - ./database:/database
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "
+      alembic upgrade head || true &&
+      uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+      "
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+      target: development
+    container_name: aegisone_frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8001/api/v1
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  aegisone_postgres_data:
+    driver: local

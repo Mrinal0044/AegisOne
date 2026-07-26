@@ -1,0 +1,111 @@
+# Task Checklist - AegisOne Foundation, Simulation, Behavior, SOC & Copilot
+
+- `[x]` Setup workspace structure and Docker configuration
+  - `[x]` Create directories (`frontend/`, `backend/`, `database/`, `docs/`, `docker/`, `scripts/`)
+  - `[x]` Create root `.env.example`
+  - `[x]` Create `docker-compose.yml`
+  - `[x]` Create backend Dockerfile
+  - `[x]` Create frontend Dockerfile
+- `[x]` Backend codebase setup
+  - `[x]` Create requirements.txt
+  - `[x]` Establish configuration (config.py)
+  - `[x]` Setup database connection (session.py)
+  - `[x]` Create database models
+  - `[x]` Define schemas (Pydantic models)
+  - `[x]` Configure Alembic migrations and settings
+  - `[x]` Write repositories & database seeding services
+  - `[x]` Implement business logic / services
+  - `[x]` Configure route endpoints (health, assets, alerts, etc.)
+  - `[x]` Integrate middleware (exception handler, CORS, loggers)
+  - `[x]` Create main.py entry point
+- `[x]` Frontend codebase setup
+  - `[x]` Bootstrap Vite React + TS app
+  - `[x]` Configure Tailwind CSS
+  - `[x]` Install routing (React Router) and client (Axios)
+  - `[x]` Implement visual UI layout (SOC Panel dashboard visual shell)
+  - `[x]` Link frontend with the FastAPI backend API
+- `[x]` Phase 2: Digital Twin and Simulation Engine
+  - `[x]` Update database models (Department, User, Device, Asset)
+  - `[x]` Create database models for BehaviorProfile and Simulation Config/State
+  - `[x]` Set up Pydantic schemas for the simulation state & behavior profiles
+  - `[x]` Implement repository layers for new simulation tables
+  - `[x]` Develop Simulation Engine background loop service (simulation_engine.py)
+  - `[x]` Expose REST endpoints (GET status, POST start/pause/stop/reset, GET behavior-profiles)
+  - `[x]` Register simulation router in main API router
+  - `[x]` Generate Alembic migration for the schema updates
+  - `[x]` Modify React UI dashboard to add the simulation control panel
+  - `[x]` Add Behavior Profiles viewer page on React UI
+- `[x]` Phase 3: Behavioral Intelligence Layer
+  - `[x]` Create database models for User/Device/Asset/DepartmentBehaviorFeatures & Snapshots
+  - `[x]` Define Pydantic schemas for feature store records
+  - `[x]` Implement repository classes for feature store tables
+  - `[x]` Implement event_processor.py for normalization
+  - `[x]` Implement window_manager.py and aggregator.py for rolling features
+  - `[x]` Implement behavior_pipeline.py queue and background worker
+  - `[x]` Integrate the pipeline queue with the Simulation Engine event emission
+  - `[x]` Write REST endpoints (GET features, GET statistics, GET windows, POST rebuild)
+  - `[x]` Register behavior router in main API router
+  - `[x]` Generate Alembic migration for feature store tables
+  - `[x]` Add React UI page for Feature Store (FeatureStore.tsx) with tabbed window filters
+- `[x]` Phase 4: AI Detection Engine & Risk Scoring
+  - `[x]` Define abstract model DetectionModel in interfaces.py
+  - `[x]` Implement IsolationForest wrapper using scikit-learn
+  - `[x]` Implement model_manager.py handling storage serialization and manifest versioning
+  - `[x]` Implement training.py fitting entity-scoped anomaly models on feature vectors
+  - `[x]` Implement risk_engine.py returning normalized score (0-100) combining criticality & deviation
+  - `[x]` Implement alert_generator.py to fire alerts in Postgres when thresholds are crossed
+  - `[x]` Implement prediction.py/scheduler.py executing background prediction sweeps on features
+  - `[x]` Write REST endpoints (POST train, POST retrain, GET status, GET models, GET metrics, POST predict)
+  - `[x]` Register AI router in main API router
+  - `[x]` Rebuild Docker containers to install scikit-learn & numpy
+  - `[x]` Add React UI page for Behavioral Engine (DetectionEngine.tsx) showing training & alerts
+- `[x]` Phase 5: Threat Simulation Engine
+  - `[x]` Define abstract ThreatScenario base class in interfaces.py
+  - `[x]` Implement 7 attack scenario classes (Insider, Brute Force, USB, PLC, Lateral, Remote, Exfil)
+  - `[x]` Implement scenario_registry.py mapping scenario keys to classes
+  - `[x]` Implement scenario_runner.py handling event commits and behavior queue triggers
+  - `[x]` Implement engine.py managing state, history logs, and active timeline sweeps
+  - `[x]` Write REST endpoints (GET list, POST start, POST stop, POST reset, GET status, GET timeline)
+  - `[x]` Register threat router in main API router
+  - `[x]` Add React UI page for Threat Simulation (ThreatSimulation.tsx)
+- `[x]` Phase 6: SOC Dashboard & Real-Time Investigation
+  - `[x]` Implement SSEManager pub-sub class in backend sse_manager.py
+  - `[x]` Bind SSE publishers inside Behavior Pipeline, Prediction, Alerts, and Threat Engine
+  - `[x]` Write FastAPI streaming endpoint /sse/stream in backend router
+  - `[x]` Register SSE router in main API router
+  - `[x]` Create React components for Digital Twin Topology (NetworkTopology.tsx) using animated SVGs
+  - `[x]` Create React components for incident Investigation drawer (AlertInvestigation.tsx)
+  - `[x]` Build real-time DashboardPage.tsx with charts, metrics, and timeline feeds
+  - `[x]` Integrate Server-Sent Events client-side mapping to refresh all dashboard widgets
+- `[x]` Phase 7: AI Security Copilot
+  - `[x]` Define LLMProvider abstract interface in interfaces.py
+  - `[x]` Implement OpenAI completions client (openai_provider.py)
+  - `[x]` Implement expert deterministic template synthesizer (fallback_provider.py)
+  - `[x]` Implement copilot engine.py aggregating alerts context
+  - `[x]` Write FastAPI routes /copilot/explain, /copilot/recommend, /copilot/report, /copilot/summary
+  - `[x]` Register copilot router in main API router
+  - `[x]` Integrate Copilot tabs (AI Explanation, Recommendations, Exec Summary, Timeline Summary) inside AlertInvestigation.tsx
+- `[x]` Phase 8: System Operations & Observability
+  - `[x]` Create AuditLog PostgreSQL database model and schema
+  - `[x]` Implement centralized audit_service.py logging core events
+  - `[x]` Bind log hooks inside threat triggers, AI training, alerts generator
+  - `[x]` Create custom HTTP request metrics tracking middleware in main.py
+  - `[x]` Write health routing details (/health/details, /metrics) exposing queues
+  - `[x]` Write administrative config endpoint (/config GET/PUT) mapping thresholds
+  - `[x]` Write data export routes (/audit/export, /alerts/export) streaming CSV files
+  - `[x]` Create React operations page (OperationsPage.tsx) displaying telemetry
+  - `[x]` Integrate real-time notification toaster on top layout via SSE stream
+- `[/]` Phase 9: Honeywell Challenge Alignment & Simulation Enrichment
+  - `[ ]` Extend database models (User, Device, Event, Alert) with geolocation, fingerprints, classifications
+  - `[ ]` Implement Alembic migration to update schema
+  - `[ ]` Extend SystemConfig with new alignment variables in config_manager.py
+  - `[ ]` Implement advanced_rules.py for Impossible Travel and Device Fingerprint Drift
+  - `[ ]` Integrate advanced rules checkpoints in Behavior Pipeline loop
+  - `[ ]` Implement Cold Start baseline fallbacks in prediction.py
+  - `[ ]` Implement Credential Stuffing, Low-and-Slow Exfiltration, and Insider Drift scenarios
+  - `[ ]` Extend synthetic data generation and seeding to support enhanced schema parameters
+  - `[ ]` Update investigation drawer and configuration panels on frontend to support new fields
+- `[ ]` Execution and Verification
+  - `[ ]` Run threat scenarios and inspect classifications
+  - `[ ]` Verify cold start behavior logs and config parameters updates
+  - `[ ]` Generate walkthrough and final documentation

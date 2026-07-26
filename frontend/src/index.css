@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+@theme {
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-brand-bg: #030712;
+  --color-brand-panel: rgba(17, 24, 39, 0.7);
+  --color-brand-border: rgba(255, 255, 255, 0.08);
+  
+  --color-severity-critical: #ef4444;
+  --color-severity-high: #f97316;
+  --color-severity-medium: #eab308;
+  --color-severity-low: #06b6d4;
+  --color-severity-info: #3b82f6;
+
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 4px rgba(239, 68, 68, 0.3), 0 0 10px rgba(239, 68, 68, 0.2);
+  }
+  to {
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.6), 0 0 20px rgba(239, 68, 68, 0.4);
+  }
+}
+
+/* Custom Scrollbar for Enterprise Dashboard */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(31, 41, 55, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.5);
+}
+
+body {
+  background-color: var(--color-brand-bg);
+  color: #f3f4f6;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Panel Utility */
+.glass-panel {
+  background: var(--color-brand-panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-brand-border);
+}
+
+/* Glow Border for Critical States */
+.critical-glow-border {
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.2);
+}
+
+/* Monospace font classes */
+.font-mono {
+  font-family: var(--font-mono);
+}

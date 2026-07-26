@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: aegisone-backend
+    runtime: python
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: SQLALCHEMY_DATABASE_URI
+        sync: false
+      - key: ENVIRONMENT
+        value: production
+      - key: SEED_DATABASE_ON_STARTUP
+        value: "true"
+      - key: BACKEND_CORS_ORIGINS
+        value: '["*"]'
+      - key: MODEL_STORE_DIR
+        value: "./model_store"
