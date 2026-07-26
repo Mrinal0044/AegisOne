@@ -35,7 +35,14 @@ async def lifespan(app: FastAPI):
     from app.services.sse_manager import sse_manager
     sse_manager.loop = asyncio.get_running_loop()
 
-    # Startup seeding execution
+    # 1. Initialize tables (idempotent fallback)
+    from app.database.session import engine, Base
+    import app.models
+    logger.info("Checking database tables configuration...")
+    Base.metadata.create_all(bind=engine)
+    logger.info("Database tables verified.")
+
+    # 2. Startup seeding execution
     from app.database.session import SessionLocal
     
     db = SessionLocal()
